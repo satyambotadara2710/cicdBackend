@@ -9,5 +9,5 @@ if %errorlevel% equ 0 (
     echo Container %container_name% removed.
 ) 
 
-docker run -d --name %container_name% -p %port_number%:8100 %image_name%
+docker run -d --name %container_name% -p %port_number%:8080 %image_name%
 echo Container %container_name% running on port %port_number%.
