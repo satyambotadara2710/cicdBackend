@@ -1,7 +1,13 @@
 #!/bin/bash
-FROM amazoncorretto:17
-WORKDIR /springapp/
-COPY . /springapp/
-RUN sed -i 's/\r$//' mvnw
+FROM amazoncorretto:17 as builder
+WORKDIR /app/
+COPY ./.mvn /app/.mvn
+COPY pom.xml mvnw /app/
+RUN ./mvnw dependency:go-offline
+COPY . /app/
 RUN ./mvnw clean install
-ENTRYPOINT [ "java","-jar","/springapp/target/springbackend.jar" ]
+
+FROM amazoncorretto:17
+WORKDIR /app
+COPY --from=builder /app/target/springbackend.jar /app/backend.jar
+ENTRYPOINT [ "java","-jar","/app/backend.jar" ]
