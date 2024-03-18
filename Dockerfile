@@ -3,7 +3,7 @@ FROM amazoncorretto:17 as builder
 WORKDIR /app/
 COPY ./.mvn /app/.mvn
 COPY pom.xml mvnw /app/
-RUN  sed -i 's/\r$//' mvnw && ./mvnw dependency:go-offline
+RUN  ./mvnw dependency:go-offline
 COPY . /app/
 RUN ./mvnw clean install
 
